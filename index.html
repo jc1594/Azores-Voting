@@ -599,7 +599,7 @@
     <script>
         // ===== CONFIGURATION =====
         // IMPORTANT: Replace this with your Google Apps Script Web App URL
-        const GOOGLE_SHEET_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
+        const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbyWNrS_eaOZtQxyP9Ef2y6n9ywwaLt3bKoy0h7ig8RQJWek5TXfjilx2uaZ6Y-G7SbI/exec';
         // ========================
         
         const options = [
@@ -657,17 +657,17 @@
 
         // Generate a unique voter ID for this browser
         function getVoterId() {
-            let voterId = localStorage.getItem('voter-id');
+            let voterId = localStorage.getItem('azores-voter-id');
             if (!voterId) {
-                voterId = 'voter_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem('voter-id', voterId);
+                voterId = 'azores_voter_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('azores-voter-id', voterId);
             }
             return voterId;
         }
 
         async function initializeVoting() {
             try {
-                const savedRanking = localStorage.getItem('user-ranking');
+                const savedRanking = localStorage.getItem('azores-user-ranking');
                 if (savedRanking) {
                     currentRanking = JSON.parse(savedRanking);
                 }
@@ -750,10 +750,10 @@
                 }
 
                 // Save user's ranking locally
-                localStorage.setItem('user-ranking', JSON.stringify(currentRanking));
+                localStorage.setItem('azores-user-ranking', JSON.stringify(currentRanking));
                 
                 // Check if user has already voted
-                const hasVoted = localStorage.getItem('has-voted') === 'true';
+                const hasVoted = localStorage.getItem('azores-has-voted') === 'true';
                 
                 if (hasVoted) {
                     alert('You have already submitted a vote! Your preferences have been saved, but your vote was not counted again.');
@@ -786,7 +786,7 @@
 
                 // Also save locally for viewing results
                 let allVotes = {};
-                const votesData = localStorage.getItem('all-votes');
+                const votesData = localStorage.getItem('azores-all-votes');
                 if (votesData) {
                     allVotes = JSON.parse(votesData);
                 }
@@ -809,8 +809,8 @@
                     allVotes[option.id].rankings[index + 1] += 1;
                 });
                 
-                localStorage.setItem('all-votes', JSON.stringify(allVotes));
-                localStorage.setItem('has-voted', 'true');
+                localStorage.setItem('azores-all-votes', JSON.stringify(allVotes));
+                localStorage.setItem('azores-has-voted', 'true');
                 
                 // Show confirmation
                 showConfirmation();
@@ -838,7 +838,7 @@
             const container = document.getElementById('results-container');
             
             try {
-                const votesData = localStorage.getItem('all-votes');
+                const votesData = localStorage.getItem('azores-all-votes');
                 
                 if (!votesData) {
                     container.innerHTML = '<p class="instruction">No votes have been cast yet. Be the first to vote!</p>';
